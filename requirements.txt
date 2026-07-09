@@ -1,4 +1,4 @@
-fastapi[all]
+fastapi
 uvicorn
 pydantic[email]
 pydantic-settings
@@ -9,7 +9,6 @@ fastembed
 qdrant-client
 langchain-groq
 openai
-streamlit
 python-multipart
 pypdf
 python-dotenv
