@@ -12,29 +12,34 @@ logger = logging.getLogger(__name__)
 class LLMService:
     def __init__(self):
         logger.info(f"Initializing LLM Service. Provider: {settings.LLM_PROVIDER}, Model: {settings.LLM_MODEL}")
-        
-        api_key = settings.LLM_API_KEY
-        if not api_key:
-            raise ValueError(f"API key for {settings.LLM_PROVIDER} is missing in .env")
-            
-        if settings.LLM_PROVIDER == "groq":
-            self.llm = ChatGroq(
-                groq_api_key=api_key,
-                model_name=settings.LLM_MODEL,
-                temperature=0.2,
-                streaming=True
-            )
-        elif settings.LLM_PROVIDER == "gemini":
-            from langchain_community.chat_models.openai import ChatOpenAI
-            self.llm = ChatOpenAI(
-                openai_api_key=api_key,
-                openai_api_base=settings.LLM_BASE_URL,
-                model_name=settings.LLM_MODEL,
-                temperature=0.2,
-                streaming=True
-            )
-        else:
-            raise ValueError(f"Unsupported LLM provider: {settings.LLM_PROVIDER}")
+        self._llm = None
+
+    @property
+    def llm(self):
+        if self._llm is None:
+            api_key = settings.LLM_API_KEY
+            if not api_key:
+                raise ValueError(f"API key for {settings.LLM_PROVIDER} is missing (please check your environment variable details on the Vercel dashboard)")
+                
+            if settings.LLM_PROVIDER == "groq":
+                self._llm = ChatGroq(
+                    groq_api_key=api_key,
+                    model_name=settings.LLM_MODEL,
+                    temperature=0.2,
+                    streaming=True
+                )
+            elif settings.LLM_PROVIDER == "gemini":
+                from langchain_community.chat_models.openai import ChatOpenAI
+                self._llm = ChatOpenAI(
+                    openai_api_key=api_key,
+                    openai_api_base=settings.LLM_BASE_URL,
+                    model_name=settings.LLM_MODEL,
+                    temperature=0.2,
+                    streaming=True
+                )
+            else:
+                raise ValueError(f"Unsupported LLM provider: {settings.LLM_PROVIDER}")
+        return self._llm
 
     def stream_response(self, query: str, top_k: int = 5) -> Generator[str, None, None]:
         try:

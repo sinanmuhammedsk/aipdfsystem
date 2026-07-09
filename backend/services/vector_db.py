@@ -20,7 +20,8 @@ class VectorDBService:
             model_name = settings.EMBEDDING_MODEL_NAME
             if model_name == "all-MiniLM-L6-v2":
                 model_name = "sentence-transformers/all-MiniLM-L6-v2"
-            self._encoder = TextEmbedding(model_name=model_name)
+            cache_dir = "/tmp/fastembed_cache" if os.environ.get("VERCEL") else None
+            self._encoder = TextEmbedding(model_name=model_name, cache_dir=cache_dir)
         return self._encoder
 
     @property
