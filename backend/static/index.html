@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Optimization Meta Tags -->
+    <title>OMNI | Enterprise Document Intelligence</title>
+    <meta name="description" content="OMNI is an advanced enterprise RAG parsing pipeline that vectorizes documents and indexes semantic knowledge parameters.">
+    <meta name="keywords" content="RAG, Document Intelligence, Semantic Search, Vector Search, Knowledge Ingestion, Metadata Registry">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://localhost:8000/">
+
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Header Bar -->
+    <header class="omni-header">
+        <div class="header-left">
+            <div class="omni-logo">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L20.196 7V17L12 22L3.804 17V7L12 2Z" fill="var(--accent)" fill-opacity="0.95"/>
+                    <path d="M12 6L16.9 9V15L12 18L7.1 15V9L12 6Z" fill="var(--accent)" fill-opacity="0.2"/>
+                    <circle cx="12" cy="12" r="1.5" fill="var(--text)"/>
+                </svg>
+            </div>
+            <div class="brand-group">
+                <span class="omni-wordmark">OMNI</span>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <button id="home-btn" class="minimal-home-btn hidden" title="Go back to Home">Home</button>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Dark/Light Mode">
+                <span class="theme-icon">☀️</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main id="app-container" class="app-container">
+        
+        <!-- ==================== STAGE 1: UPLOAD PORTAL ==================== -->
+        <section id="portal-stage" class="stage-section active">
+            <!-- Centered Hero -->
+            <div class="hero-center-wrapper">
+                <h1 class="omni-hero-title">
+                    Enterprise <span>Document</span><br>Intelligence
+                </h1>
+                <p class="omni-hero-subtitle">
+                    Transform PDFs into AI-searchable knowledge bases. Upload reports, research papers, manuals, contracts, or documentation and instantly ask grounded questions with citations.
+                </p>
+                
+                <!-- Centered Upload Card -->
+                <div class="upload-card-wrapper">
+                    <div class="saas-card">
+                        <div id="dropzone" class="dropzone-centered">
+                            <input type="file" id="file-input" accept=".pdf" class="hidden-input">
+                            <div class="dropzone-content">
+                                <div class="upload-icon-saas">
+                                    <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                        <circle cx="9" cy="9" r="2"/>
+                                        <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                                    </svg>
+                                </div>
+                                <h3>Create Knowledge Workspace</h3>
+                                <p>Drag & drop your PDF file here, or use the options below</p>
+                                
+                                <div class="button-row-saas">
+                                    <button type="button" class="primary-btn" id="fake-upload-btn">Build Knowledge Base</button>
+                                    <button type="button" class="secondary-btn" id="fake-browse-btn">Browse Files</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- File Preview -->
+                        <div id="file-preview-card" class="file-preview-saas hidden">
+                            <div class="file-info-saas">
+                                <span class="file-icon-saas">📄</span>
+                                <div class="file-info-text">
+                                    <h4 id="selected-file-name">document.pdf</h4>
+                                    <p id="selected-file-size">0.0 MB</p>
+                                </div>
+                                <button id="remove-file-btn" class="remove-file-saas" title="Remove file">&times;</button>
+                            </div>
+                        </div>
+
+                        <button id="proceed-btn" class="primary-btn w-full pipeline-action-btn hidden">
+                            Build Knowledge Base
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-decor">⚡</div>
+                        <h3>Semantic Understanding</h3>
+                        <p>Automatically extracts document structure, headings, tables, entities and relationships.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-decor">🔍</div>
+                        <h3>AI Knowledge Search</h3>
+                        <p>Grounded semantic search with citations and contextual answers.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-decor">🌐</div>
+                        <h3>Knowledge Graph</h3>
+                        <p>Build an intelligent knowledge base across multiple uploaded documents.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== STAGE 2: LOADING (STEP-BY-STEP CHECKLIST) ==================== -->
+        <section id="processing-stage" class="stage-section">
+            <div class="loading-wrapper-saas">
+                <div class="step-checklist-card">
+                    <div class="loading-header-saas">
+                        <h2 class="loading-title-saas">Building Knowledge Base</h2>
+                        <span id="processing-filename" class="loading-file-saas">document.pdf</span>
+                    </div>
+
+                    <div class="stepper-saas">
+                        <!-- Step 1 -->
+                        <div class="step-row-saas" id="step-upload">
+                            <div class="step-icon-saas">✓</div>
+                            <span class="step-label-saas">Uploading</span>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="step-row-saas" id="step-verify">
+                            <div class="step-icon-saas">2</div>
+                            <span class="step-label-saas">PDF Verified</span>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="step-row-saas" id="step-parse">
+                            <div class="step-icon-saas">3</div>
+                            <span class="step-label-saas">Parsing Document</span>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="step-row-saas" id="step-text">
+                            <div class="step-icon-saas">4</div>
+                            <span class="step-label-saas">Extracting Text</span>
+                        </div>
+                        <!-- Step 5 -->
+                        <div class="step-row-saas" id="step-embed">
+                            <div class="step-icon-saas">5</div>
+                            <span class="step-label-saas">Generating Embeddings</span>
+                        </div>
+                        <!-- Step 6 -->
+                        <div class="step-row-saas" id="step-graph">
+                            <div class="step-icon-saas">6</div>
+                            <span class="step-label-saas">Building Knowledge Base</span>
+                        </div>
+                        <!-- Step 7 -->
+                        <div class="step-row-saas" id="step-ready">
+                            <div class="step-icon-saas">7</div>
+                            <span class="step-label-saas">Ready</span>
+                        </div>
+                    </div>
+
+                    <div class="spinner-container-saas">
+                        <div class="progress-bar-saas"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== STAGE 3: CHAT WORKSPACE ==================== -->
+        <section id="chat-stage" class="stage-section">
+            <div class="workspace-grid">
+                
+                <!-- Chat Panel -->
+                <div class="chat-panel">
+                    <div class="chat-header">
+                        <h2>Document Intelligence Workroom</h2>
+                        <div id="active-file-pill" class="active-file-pill">
+                            <span class="active-dot"></span>
+                            <span id="active-filename">document.pdf</span>
+                        </div>
+                    </div>
+
+                    <div id="chat-messages" class="chat-messages-container">
+                        <!-- Messages dynamically rendered -->
+                        <div class="message assistant">
+                            <div class="message-content">
+                                <p>System Initialized. I've parsed and vectorized the document. Ask me anything about the content, sections, semantic variables, or knowledge indicators inside.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-wrapper">
+                        <form id="chat-form" class="chat-form">
+                            <input type="text" id="chat-input" placeholder="Query document..." autocomplete="off">
+                            <button type="submit" id="send-btn" class="send-btn" aria-label="Send query">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar / Info Panel -->
+                <aside class="sidebar-panel">
+                    
+                    <!-- Document Info Card -->
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <span class="card-title">Knowledge Base Overview</span>
+                        </div>
+                        <div class="info-card-body">
+                            <div class="metadata-row">
+                                <span class="metadata-label">Document</span>
+                                <span id="overview-doc-verified" class="metadata-value">Verified</span>
+                            </div>
+                            <div class="metadata-row">
+                                <span class="metadata-label">Pages</span>
+                                <span id="overview-pages" class="metadata-value">-</span>
+                            </div>
+                            <div class="metadata-row">
+                                <span class="metadata-label">Sections</span>
+                                <span id="overview-sections" class="metadata-value">-</span>
+                            </div>
+                            <div class="metadata-row">
+                                <span class="metadata-label">Tables</span>
+                                <span id="overview-tables" class="metadata-value">-</span>
+                            </div>
+                            <div class="metadata-row">
+                                <span class="metadata-label">Images</span>
+                                <span id="overview-images" class="metadata-value">-</span>
+                            </div>
+                            <div class="metadata-row">
+                                <span class="metadata-label">Knowledge Chunks</span>
+                                <span id="overview-chunks" class="metadata-value">-</span>
+                            </div>
+                            <div class="metadata-row">
+                                <span class="metadata-label">Language</span>
+                                <span id="overview-language" class="metadata-value">English</span>
+                            </div>
+                            <div class="metadata-row">
+                                <span class="metadata-label">Status</span>
+                                <span id="overview-status" class="status-badge-saas">Ready</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
