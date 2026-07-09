@@ -2,7 +2,7 @@ from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 from ..core.config import settings
 from .vector_db import vector_db
-from typing import List, Dict, Any, Generator
+from typing import List, Dict, Any, Generator, AsyncGenerator
 import logging
 
 # Setup logging
@@ -41,7 +41,7 @@ class LLMService:
                 raise ValueError(f"Unsupported LLM provider: {settings.LLM_PROVIDER}")
         return self._llm
 
-    def stream_response(self, query: str, top_k: int = 5) -> Generator[str, None, None]:
+    async def stream_response(self, query: str, top_k: int = 5) -> AsyncGenerator[str, None]:
         try:
             # 1. Retrieve context
             matching_chunks = vector_db.search(query, top_k=top_k)
@@ -68,7 +68,7 @@ Follow these strict rules:
             ]
 
             # 4. Stream using LangChain
-            for chunk in self.llm.stream(messages):
+            async for chunk in self.llm.astream(messages):
                 if chunk.content:
                     yield chunk.content
 

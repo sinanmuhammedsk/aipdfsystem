@@ -29,6 +29,15 @@ app.add_middleware(
 @app.on_event("startup")
 def startup_event():
     init_db()
+    # Pre-warm the embedding encoder so it's loaded in memory and doesn't slow down the first query
+    try:
+        from .services.vector_db import vector_db
+        import logging
+        _ = vector_db.encoder
+        logging.getLogger(__name__).info("Vector DB Encoder pre-warmed successfully.")
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).error(f"Failed to pre-warm encoder on startup: {e}")
 
 def process_document_task(document_id: int, file_path: str, filename: str):
     db = SessionLocal()
