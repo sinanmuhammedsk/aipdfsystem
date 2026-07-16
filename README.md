@@ -1,5 +1,6 @@
 # 📄 Enterprise Semantic Analysis System (AI PDF System)
 
+[![Live App](https://img.shields.io/badge/Live_App-Deployed-success?style=for-the-badge&logo=vercel)](https://aipdfsystem.vercel.app)
 ![Python](https://img.shields.io/badge/Language-Python-blue)
 ![NLP](https://img.shields.io/badge/AI-Natural%20Language%20Processing-orange)
 
